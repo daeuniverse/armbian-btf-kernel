@@ -1,0 +1,196 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+        matrix:
+          include:
+            - boardfamily: bcm2711
+              branch: current
+              representative: rpi4b
+            - boardfamily: bcm2711
+              branch: edge
+              representative: rpi4b
+            - boardfamily: d1
+              branch: edge
+              representative: mangopi-mq
+            - boardfamily: imx6
+              branch: current
+              representative: cubox-i
+            - boardfamily: imx6
+              branch: edge
+              representative: cubox-i
+            - boardfamily: imx7d
+              branch: current
+              representative: imx7sabre
+            - boardfamily: imx7d
+              branch: legacy
+              representative: imx7sabre
+            - boardfamily: media
+              branch: current
+              representative: jetson-nano
+            - boardfamily: media
+              branch: edge
+              representative: jetson-nano
+            - boardfamily: media
+              branch: legacy
+              representative: khadas-edge2
+            - boardfamily: meson
+              branch: current
+              representative: odroidc4
+            - boardfamily: meson
+              branch: edge
+              representative: odroidc4
+            - boardfamily: mt7623
+              branch: legacy
+              representative: bananapir2
+            - boardfamily: mvebu64
+              branch: current
+              representative: macchiatobin-doubleshot
+            - boardfamily: mvebu64
+              branch: edge
+              representative: macchiatobin-doubleshot
+            - boardfamily: mvebu
+              branch: current
+              representative: macchiatobin-doubleshot
+            - boardfamily: mvebu
+              branch: edge
+              representative: macchiatobin-doubleshot
+            - boardfamily: odroidxu4
+              branch: current
+              representative: odroidxu4
+            - boardfamily: odroidxu4
+              branch: edge
+              representative: odroidxu4
+            - boardfamily: rk322x
+              branch: current
+              representative: rk322x-box
+            - boardfamily: rk322x
+              branch: edge
+              representative: rk322x-box
+            - boardfamily: rk322x
+              branch: legacy
+              representative: rk322x-box
+            - boardfamily: rk3399
+              branch: legacy
+              representative: helios64
+            - boardfamily: rk3568-odroid
+              branch: edge
+              representative: odroidm1
+            - boardfamily: rk35xx
+              branch: legacy
+              representative: radxa-e25
+            - boardfamily: rockchip64
+              branch: current
+              representative: rockpro64
+            - boardfamily: rockchip64
+              branch: edge
+              representative: rockpro64
+            - boardfamily: rockchip64
+              branch: legacy
+              representative: rockpro64
+            - boardfamily: rockchip
+              branch: current
+              representative: rockpro64
+            - boardfamily: rockchip
+              branch: edge
+              representative: rockpro64
+            - boardfamily: rockchip
+              branch: legacy
+              representative: rockpro64
+            - boardfamily: rockchip-rk3588
+              branch: edge
+              representative: rock-5b
+            - boardfamily: rockchip-rk3588
+              branch: legacy
+              representative: rock-5b
+            - boardfamily: rockpis
+              branch: legacy
+              representative: rockpi-s
+            - boardfamily: s5p6818
+              branch: legacy
+              representative: nanopifire3
+            - boardfamily: starfive2
+              branch: edge
+              representative: visionfive2
+            - boardfamily: starfive
+              branch: edge
+              representative: visionfive2
+            - boardfamily: sun50iw9
+              branch: legacy
+              representative: orangepizero2
+            - boardfamily: uefi-arm64
+              branch: current
+              representative: uefi-arm64
+            - boardfamily: uefi-arm64
+              branch: edge
+              representative: uefi-arm64
+            - boardfamily: uefi-riscv64
+              branch: current
+              representative: uefi-riscv64
+            - boardfamily: uefi-riscv64
+              branch: edge
+              representative: uefi-riscv64
+            - boardfamily: uefi-x86
+              branch: current
+              representative: uefi-x86
+            - boardfamily: uefi-x86
+              branch: edge
+              representative: uefi-x86
+            - boardfamily: virtual
+              branch: current
+              representative: virtual-qemu
+            - boardfamily: zynq
+              branch: legacy
+              representative: microzed
+
+        fail-fast: false
+    runs-on: ubuntu-latest
+    env:
+      BOARD_FAMILY: ${{ matrix.boardfamily }}
+      BRANCH: ${{ matrix.branch }}
+      BOARD_NAME: ${{ matrix.representative }}
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: armbian/build
+      
+      - uses: actions/checkout@v3
+        with:
+          path: utils
+
+      - name: Build Kernel
+        run: |
+          # Copy project files.
+          cp utils/* ./
+          cp utils/.[^.]* ./
+
+          # Remove disabling DEBUG_INFO.
+          sed -i 's/run_kernel_make olddefconfig/run_kernel_make KCONFIG_ALLCONFIG=.config alldefconfig/g' lib/functions/compilation/kernel-config.sh
+          sed -i '/kernel_config_set_n DEBUG_INFO/d' lib/functions/compilation/armbian-kernel.sh
+          
+          # Compile kernel.
+          ./compile.sh RELEASE=bullseye JUST_KERNEL=yes KERNEL_ONLY=yes BOARD="$BOARD_NAME" BRANCH="$BRANCH" KERNEL_CONFIGURE=no
+
+      - name: Extract vmlinux
+        id: vmlinux
+        run: |
+          cd output/debs/
+          fname=$(ls --format single-column)
+          id=$(echo $fname | cut -d- -f3-4)
+          dpkg-deb -x fname kernel
+          filename=vmlinux_"$BOARD_FAMILY"_"$id"
+          cp kernel/boot/vmlinux* $filename
+          echo FILEPATH="$(realpath $filename)" >> $GITHUB_OUTPUT
+
+
+      - name: Upload files to Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          path: ${{ steps.vmlinux.outputs.FILEPATH }}
