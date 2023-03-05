@@ -167,9 +167,8 @@ jobs:
 
       - name: Build Kernel
         run: |
-          # Copy project files.
-          cp utils/* ./
-          cp utils/.[^.]* ./
+          # Copy helper files.
+          cp utils/{merge_config.sh,.config-btf} ./
 
           # Remove disabling DEBUG_INFO.
           sed -i 's/run_kernel_make olddefconfig/run_kernel_make KCONFIG_ALLCONFIG=.config alldefconfig/g' lib/functions/compilation/kernel-config.sh
