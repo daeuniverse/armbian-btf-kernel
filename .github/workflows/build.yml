@@ -210,14 +210,19 @@ jobs:
       - name: Extract vmlinux
         id: vmlinux
         run: |
-          cd output/debs/
-          fname=$(ls --format single-column linux-image-*.deb | head -n 1)
-          id=$(echo $fname | cut -d- -f3-4)
-          dpkg-deb -x "$fname" kernel
-          filename=vmlinux_"$BOARD_FAMILY"_"$id"
-          vmlinux_file_src=$(ls --format single-column kernel/boot/vmlinux* | head -n 1)
-          cp "$vmlinux_file_src" "$filename"
+          tree
+          filename=output_"$BOARD_FAMILY"_"$BRANCH"_"$BOARD_NAME".tar
+          tar -cf "$filename" output
           echo FILEPATH="$(realpath ${filename})" >> $GITHUB_OUTPUT
+          
+          #cd output/debs/
+          #fname=$(ls --format single-column linux-image-*.deb | head -n 1)
+          #id=$(echo $fname | cut -d- -f3-4)
+          #dpkg-deb -x "$fname" kernel
+          #filename=vmlinux_"$BOARD_FAMILY"_"$id"
+          #vmlinux_file_src=$(ls --format single-column kernel/boot/vmlinux* | head -n 1)
+          #cp "$vmlinux_file_src" "$filename"
+          #echo FILEPATH="$(realpath ${filename})" >> $GITHUB_OUTPUT
 
       - name: Upload files to Artifacts
         uses: actions/upload-artifact@v3
