@@ -12,166 +12,172 @@ jobs:
           include:
             - boardfamily: bcm2711
               branch: current
-              representative: config/boards/rpi4b
+              representative: rpi4b
             - boardfamily: bcm2711
               branch: edge
-              representative: config/boards/rpi4b
+              representative: rpi4b
             - boardfamily: d1
               branch: edge
-              representative: config/boards/mangopi-mq
+              representative: mangopi-mq
             - boardfamily: imx6
               branch: current
-              representative: config/boards/cubox-i
+              representative: cubox-i
             - boardfamily: imx6
               branch: edge
-              representative: config/boards/cubox-i
+              representative: cubox-i
             - boardfamily: imx7d
               branch: current
-              representative: config/boards/imx7sabre
+              representative: imx7sabre
             - boardfamily: imx7d
               branch: legacy
-              representative: config/boards/imx7sabre
+              representative: imx7sabre
+            - boardfamily: jetson-nano
+              branch: legacy
+              representative: jetson-nano
             - boardfamily: media
               branch: current
-              representative: config/boards/jetson-nano
+              representative: jetson-nano
             - boardfamily: media
               branch: edge
-              representative: config/boards/jetson-nano
+              representative: jetson-nano
             - boardfamily: media
               branch: legacy
-              representative: config/boards/khadas-edge2
+              representative: khadas-edge2
             - boardfamily: meson64
               branch: current
-              representative: config/boards/odroidc4
+              representative: odroidc4
             - boardfamily: meson64
               branch: edge
-              representative: config/boards/odroidc4
+              representative: odroidc4
             - boardfamily: meson
               branch: current
-              representative: config/boards/onecloud
+              representative: onecloud
             - boardfamily: meson
               branch: edge
-              representative: config/boards/onecloud
+              representative: onecloud
             - boardfamily: mt7623
               branch: legacy
-              representative: config/boards/bananapir2
+              representative: bananapir2
             - boardfamily: mvebu64
               branch: current
-              representative: config/boards/macchiatobin-doubleshot
+              representative: macchiatobin-doubleshot
             - boardfamily: mvebu64
               branch: edge
-              representative: config/boards/macchiatobin-doubleshot
+              representative: macchiatobin-doubleshot
             - boardfamily: mvebu
               branch: current
-              representative: config/boards/clearfogpro
+              representative: clearfogpro
             - boardfamily: mvebu
               branch: edge
-              representative: config/boards/clearfogpro
+              representative: clearfogpro
             - boardfamily: odroidxu4
               branch: current
-              representative: config/boards/odroidxu4
+              representative: odroidxu4
             - boardfamily: odroidxu4
               branch: edge
-              representative: config/boards/odroidxu4
+              representative: odroidxu4
             - boardfamily: rk322x
               branch: current
-              representative: config/boards/rk322x-box
+              representative: rk322x-box
             - boardfamily: rk322x
               branch: edge
-              representative: config/boards/rk322x-box
+              representative: rk322x-box
             - boardfamily: rk322x
               branch: legacy
-              representative: config/boards/rk322x-box
+              representative: rk322x-box
             - boardfamily: rk3399
               branch: legacy
-              representative: config/boards/helios64
+              representative: helios64
             - boardfamily: rk3568-odroid
               branch: edge
-              representative: config/boards/odroidm1
+              representative: odroidm1
             - boardfamily: rk35xx
               branch: legacy
-              representative: config/boards/radxa-e25
+              representative: radxa-e25
             - boardfamily: rockchip64
               branch: current
-              representative: config/boards/rockpro64
+              representative: rockpro64
             - boardfamily: rockchip64
               branch: edge
-              representative: config/boards/rockpro64
+              representative: rockpro64
             - boardfamily: rockchip64
               branch: legacy
-              representative: config/boards/rockpro64
+              representative: rockpro64
             - boardfamily: rockchip
               branch: current
-              representative: config/boards/tinkerboard
+              representative: tinkerboard
             - boardfamily: rockchip
               branch: edge
-              representative: config/boards/tinkerboard
+              representative: tinkerboard
             - boardfamily: rockchip
               branch: legacy
-              representative: config/boards/tinkerboard
+              representative: tinkerboard
             - boardfamily: rockchip-rk3588
               branch: edge
-              representative: config/boards/rock-5b
+              representative: rock-5b
             - boardfamily: rockchip-rk3588
               branch: legacy
-              representative: config/boards/rock-5b
+              representative: rock-5b
             - boardfamily: rockpis
               branch: legacy
-              representative: config/boards/rockpi-s
+              representative: rockpi-s
             - boardfamily: s5p6818
               branch: legacy
-              representative: config/boards/nanopifire3
+              representative: nanopifire3
             - boardfamily: starfive2
               branch: edge
-              representative: config/boards/visionfive2
+              representative: visionfive2
             - boardfamily: starfive
               branch: edge
-              representative: config/boards/unleashed
+              representative: unleashed
+            - boardfamily: station-p2
+              branch: legacy
+              representative: station-p2
             - boardfamily: sun50iw9
               branch: legacy
-              representative: config/boards/orangepizero2
+              representative: orangepizero2
             - boardfamily: sunxi64
               branch: current
-              representative: config/boards/lime-a64
+              representative: lime-a64
             - boardfamily: sunxi64
               branch: edge
-              representative: config/boards/lime-a64
+              representative: lime-a64
             - boardfamily: sunxi64
               branch: legacy
-              representative: config/boards/lime-a64
+              representative: lime-a64
             - boardfamily: sunxi
               branch: current
-              representative: config/boards/bananapim2plus
+              representative: bananapim2plus
             - boardfamily: sunxi
               branch: edge
-              representative: config/boards/bananapim2plus
+              representative: bananapim2plus
             - boardfamily: sunxi
               branch: legacy
-              representative: config/boards/bananapim2plus
+              representative: bananapim2plus
             - boardfamily: uefi-arm64
               branch: current
-              representative: config/boards/uefi-arm64
+              representative: uefi-arm64
             - boardfamily: uefi-arm64
               branch: edge
-              representative: config/boards/uefi-arm64
+              representative: uefi-arm64
             - boardfamily: uefi-riscv64
               branch: current
-              representative: config/boards/uefi-riscv64
+              representative: uefi-riscv64
             - boardfamily: uefi-riscv64
               branch: edge
-              representative: config/boards/uefi-riscv64
+              representative: uefi-riscv64
             - boardfamily: uefi-x86
               branch: current
-              representative: config/boards/uefi-x86
+              representative: uefi-x86
             - boardfamily: uefi-x86
               branch: edge
-              representative: config/boards/uefi-x86
+              representative: uefi-x86
             - boardfamily: virtual
               branch: current
-              representative: config/boards/virtual-qemu
+              representative: virtual-qemu
             - boardfamily: zynq
               branch: legacy
-              representative: config/boards/microzed
+              representative: microzed
 
         fail-fast: false
     runs-on: ubuntu-latest
