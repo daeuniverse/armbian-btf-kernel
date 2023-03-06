@@ -1,4 +1,4 @@
-source "helpers.sh"
+source "generate_matrix_helpers.sh"
 
 echo "include:"
 ls --format single-column config/kernel/ | while read -r fname; do
