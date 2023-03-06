@@ -37,7 +37,12 @@ jobs:
           # Remove disabling DEBUG_INFO.
           sed -i 's/run_kernel_make olddefconfig/run_kernel_make KCONFIG_ALLCONFIG=.config alldefconfig/g' lib/functions/compilation/kernel-config.sh
           sed -i '/kernel_config_set_n DEBUG_INFO/d' lib/functions/compilation/armbian-kernel.sh
-          
+
+          # Enable BTF
+          mv config/kernel/linux-"$BOARD_FAMILY"-"$BRANCH".config .config
+          sh merge_config.sh .config .config-btf
+          mv .config config/kernel/linux-"$BOARD_FAMILY"-"$BRANCH".config
+
           # Compile kernel.
           ./compile.sh RELEASE=bullseye JUST_KERNEL=yes KERNEL_ONLY=yes BOARD="$BOARD_NAME" BRANCH="$BRANCH" KERNEL_CONFIGURE=no
 
