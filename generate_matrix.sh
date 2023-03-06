@@ -1,19 +1,31 @@
+source "helpers.sh"
+
 echo "include:"
 ls --format single-column config/kernel/ | while read -r fname; do
     # Extract required info.
-    branch=$(echo $fname | cut -d. -f1 | rev | cut -d- -f1 | rev )
+    BRANCH=$(echo $fname | cut -d. -f1 | rev | cut -d- -f1 | rev )
     boardfamily=${fname##linux-}
-    boardfamily=${boardfamily%%-"$branch".*}
+    boardfamily=${boardfamily%%-"$BRANCH".*}
 
     boardname=""
     while read -r boardfname; do
-        (grep "KERNEL_TARGET=" $boardfname | grep -q $branch) && \
-            boardname=$(basename $boardfname | cut -d. -f1) && \
-            break
-    done <<< $(grep -ril 'config/boards/' -e 'BOARDFAMILY="*'"$boardfamily")
-    [ -z "$boardname" ] && >&2 echo "cannot find board with: $boardfamily $branch" && continue
+        BOARD=${boardfname%%.*}
+        LINUXCONFIG=""
+        source "$boardfname"
+        # [[ $boardfamily = rockchip64 ]] && echo "YES", "$boardfname", "$BOARDFAMILY" >> debug.log
+        LINUXFAMILY="$BOARDFAMILY"
+        echo "$KERNEL_TARGET" | grep -q "$BRANCH" || continue
+        pushd config/sources
+        source families/"$BOARDFAMILY".conf > /dev/null
+        popd
+        # [[ $boardfamily = rockchip64 ]] && [[ ${boardfname##*/} = clockworkpi-a06.conf ]] && echo "$LINUXCONFIG $BRANCH $LINUXFAMILY" >> debug.log
+        [[ -z $LINUXCONFIG ]] && LINUXCONFIG="linux-${LINUXFAMILY}-${BRANCH}"
+        # [[ $boardfamily = rockchip64 ]] && [[ ${boardfname##*/} = clockworkpi-a06.conf ]] && echo $fname "$LINUXCONFIG".config >> debug.log
+        [[ "$fname" = "$LINUXCONFIG".config ]] && boardname=$BOARD && break
+    done <<< $(grep -ril 'config/boards/' -e 'BOARDFAMILY=')
+    [ -z "$boardname" ] && >&2 echo "cannot find board with: $boardfamily $BRANCH" && continue
     echo "  - boardfamily: ""$boardfamily"
-    echo "    branch: ""$branch"
+    echo "    branch: ""$BRANCH"
     echo "    representative: ""$boardname"
 done
 
