@@ -40,7 +40,7 @@ jobs:
 
           # Enable BTF
           mv config/kernel/linux-"$BOARD_FAMILY"-"$BRANCH".config .config
-          sh merge_config.sh .config .config-btf
+          sh merge_config.sh -m .config .config-btf
           mv .config config/kernel/linux-"$BOARD_FAMILY"-"$BRANCH".config
 
           # Compile kernel.
