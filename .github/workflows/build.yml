@@ -12,7 +12,7 @@ jobs:
           include:
             - boardfamily: meson64
               branch: current
-              representative: odroidc4
+              representative: aml-s9xx-box
         fail-fast: false
     runs-on: ubuntu-latest
     env:
@@ -49,7 +49,6 @@ jobs:
       - name: Extract vmlinux
         id: vmlinux
         run: |
-          tree
           filename=output_"$BOARD_FAMILY"_"$BRANCH"_"$BOARD_NAME".tar
           tar -cf "$filename" output
           echo FILENAME=output_"$BOARD_FAMILY"_"$BRANCH"_"$BOARD_NAME".zip >> $GITHUB_OUTPUT
