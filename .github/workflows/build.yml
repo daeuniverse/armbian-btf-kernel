@@ -11,7 +11,7 @@ jobs:
         matrix:
           include:
             - boardfamily: meson64
-              branch: current
+              branch: edge
               representative: aml-s9xx-box
         fail-fast: false
     runs-on: ubuntu-latest
@@ -56,7 +56,7 @@ jobs:
           mv .config config/kernel/linux-"$BOARD_FAMILY"-"$BRANCH".config
 
           # Compile kernel.
-          ./compile.sh RELEASE=bullseye JUST_KERNEL=yes KERNEL_ONLY=yes BOARD="$BOARD_NAME" BRANCH="$BRANCH" KERNEL_CONFIGURE=no
+          ./compile.sh RELEASE=jammy JUST_KERNEL=yes KERNEL_ONLY=yes BOARD="$BOARD_NAME" BRANCH="$BRANCH" KERNEL_CONFIGURE=no
 
       - name: Extract vmlinux
         id: vmlinux
