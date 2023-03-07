@@ -20,174 +20,9 @@ jobs:
     strategy:
         matrix:
           include:
-            - boardfamily: bcm2711
-              branch: current
-              representative: rpi4b
-            - boardfamily: bcm2711
-              branch: edge
-              representative: rpi4b
-            - boardfamily: d1
-              branch: edge
-              representative: mangopi-mq
-            - boardfamily: imx6
-              branch: current
-              representative: cubox-i
-            - boardfamily: imx6
-              branch: edge
-              representative: cubox-i
-            - boardfamily: imx7d
-              branch: current
-              representative: imx7sabre
-            - boardfamily: imx7d
-              branch: legacy
-              representative: imx7sabre
-            - boardfamily: jetson-nano
-              branch: legacy
-              representative: jetson-nano
-            - boardfamily: media
-              branch: current
-              representative: jetson-nano
-            - boardfamily: media
-              branch: edge
-              representative: jetson-nano
-            - boardfamily: media
-              branch: legacy
-              representative: khadas-edge2
-            - boardfamily: meson64
-              branch: current
-              representative: odroidc4
             - boardfamily: meson64
               branch: edge
-              representative: odroidc4
-            - boardfamily: meson
-              branch: current
-              representative: onecloud
-            - boardfamily: meson
-              branch: edge
-              representative: onecloud
-            - boardfamily: mt7623
-              branch: legacy
-              representative: bananapir2
-            - boardfamily: mvebu64
-              branch: current
-              representative: macchiatobin-doubleshot
-            - boardfamily: mvebu64
-              branch: edge
-              representative: macchiatobin-doubleshot
-            - boardfamily: mvebu
-              branch: current
-              representative: clearfogpro
-            - boardfamily: mvebu
-              branch: edge
-              representative: clearfogpro
-            - boardfamily: odroidxu4
-              branch: current
-              representative: odroidxu4
-            - boardfamily: odroidxu4
-              branch: edge
-              representative: odroidxu4
-            - boardfamily: rk322x
-              branch: current
-              representative: rk322x-box
-            - boardfamily: rk322x
-              branch: edge
-              representative: rk322x-box
-            - boardfamily: rk322x
-              branch: legacy
-              representative: rk322x-box
-            - boardfamily: rk3399
-              branch: legacy
-              representative: helios64
-            - boardfamily: rk3568-odroid
-              branch: edge
-              representative: odroidm1
-            - boardfamily: rk35xx
-              branch: legacy
-              representative: radxa-e25
-            - boardfamily: rockchip64
-              branch: current
-              representative: rockpro64
-            - boardfamily: rockchip64
-              branch: edge
-              representative: rockpro64
-            - boardfamily: rockchip64
-              branch: legacy
-              representative: rockpro64
-            - boardfamily: rockchip
-              branch: current
-              representative: tinkerboard
-            - boardfamily: rockchip
-              branch: edge
-              representative: tinkerboard
-            - boardfamily: rockchip
-              branch: legacy
-              representative: tinkerboard
-            - boardfamily: rockchip-rk3588
-              branch: edge
-              representative: rock-5b
-            - boardfamily: rockchip-rk3588
-              branch: legacy
-              representative: rock-5b
-            - boardfamily: rockpis
-              branch: legacy
-              representative: rockpi-s
-            - boardfamily: s5p6818
-              branch: legacy
-              representative: nanopifire3
-            - boardfamily: starfive2
-              branch: edge
-              representative: visionfive2
-            - boardfamily: starfive
-              branch: edge
-              representative: unleashed
-            - boardfamily: station-p2
-              branch: legacy
-              representative: station-p2
-            - boardfamily: sun50iw9
-              branch: legacy
-              representative: orangepizero2
-            - boardfamily: sunxi64
-              branch: current
-              representative: lime-a64
-            - boardfamily: sunxi64
-              branch: edge
-              representative: lime-a64
-            - boardfamily: sunxi64
-              branch: legacy
-              representative: lime-a64
-            - boardfamily: sunxi
-              branch: current
-              representative: bananapim2plus
-            - boardfamily: sunxi
-              branch: edge
-              representative: bananapim2plus
-            - boardfamily: sunxi
-              branch: legacy
-              representative: bananapim2plus
-            - boardfamily: uefi-arm64
-              branch: current
-              representative: uefi-arm64
-            - boardfamily: uefi-arm64
-              branch: edge
-              representative: uefi-arm64
-            - boardfamily: uefi-riscv64
-              branch: current
-              representative: uefi-riscv64
-            - boardfamily: uefi-riscv64
-              branch: edge
-              representative: uefi-riscv64
-            - boardfamily: uefi-x86
-              branch: current
-              representative: uefi-x86
-            - boardfamily: uefi-x86
-              branch: edge
-              representative: uefi-x86
-            - boardfamily: virtual
-              branch: current
-              representative: virtual-qemu
-            - boardfamily: zynq
-              branch: legacy
-              representative: microzed
+              representative: aml-s9xx-box
         fail-fast: false
     runs-on: kix
     env:
@@ -217,7 +52,10 @@ jobs:
           sed -i 's/run_kernel_make olddefconfig/run_kernel_make KCONFIG_ALLCONFIG=.config alldefconfig/g' lib/functions/compilation/kernel-config.sh
           sed -i '/kernel_config_set_n DEBUG_INFO/d' lib/functions/compilation/armbian-kernel.sh
 
-          # Enable BTF
+          # Trip modulues debug info.
+          sed -i 's/run_kernel_make_long_running/run_kernel_make_long_running INSTALL_MOD_STRIP=1/g' lib/functions/compilation/kernel.sh
+
+          # Enable BTF.
           sed -i '/CONFIG_DEBUG_INFO/d' config/kernel/linux-"$BOARD_FAMILY"-"$BRANCH".config
           echo -e "CONFIG_DEBUG_INFO=y\nCONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y\nCONFIG_DEBUG_INFO_BTF=y" >> config/kernel/linux-"$BOARD_FAMILY"-"$BRANCH".config
 
