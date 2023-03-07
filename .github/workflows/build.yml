@@ -43,9 +43,8 @@ jobs:
           sed -i '/kernel_config_set_n DEBUG_INFO/d' lib/functions/compilation/armbian-kernel.sh
 
           # Enable BTF
-          mv config/kernel/linux-"$BOARD_FAMILY"-"$BRANCH".config .config
-          sh merge_config.sh -m .config .config-btf
-          mv .config config/kernel/linux-"$BOARD_FAMILY"-"$BRANCH".config
+          sed -i '/CONFIG_DEBUG_INFO/d' config/kernel/linux-"$BOARD_FAMILY"-"$BRANCH".config
+          echo -e "CONFIG_DEBUG_INFO=y\nCONFIG_DEBUG_INFO_BTF=y" >> config/kernel/linux-"$BOARD_FAMILY"-"$BRANCH".config
 
           # Compile kernel.
           ./compile.sh RELEASE=jammy JUST_KERNEL=yes KERNEL_ONLY=yes BOARD="$BOARD_NAME" BRANCH="$BRANCH" KERNEL_CONFIGURE=no
