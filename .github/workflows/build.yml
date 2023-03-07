@@ -14,7 +14,7 @@ jobs:
               branch: edge
               representative: aml-s9xx-box
         fail-fast: false
-    runs-on: ubuntu-latest
+    runs-on: kix
     env:
       BOARD_FAMILY: ${{ matrix.boardfamily }}
       BRANCH: ${{ matrix.branch }}
