@@ -21,6 +21,10 @@ jobs:
       BOARD_NAME: ${{ matrix.representative }}
 
     steps:
+      - name: cleanup #https://github.com/actions/checkout/issues/211
+        run: |
+          sudo chown -R $USER:$USER $GITHUB_WORKSPACE
+
       - uses: actions/checkout@v3
         with:
           repository: armbian/build
