@@ -6,7 +6,17 @@ on:
   workflow_dispatch:
 
 jobs:
+  generate_release_info:
+    runs-on: kix
+    outputs:
+      release_name: ${{ steps.generate_release_name.outputs.release_name }}
+    steps:
+      - id: generate_release_name
+        run: |
+          echo "release_name=$(date -u -I)" >> "$GITHUB_OUTPUT"
+
   build:
+    needs: generate_release_info
     strategy:
         matrix:
           include:
@@ -222,8 +232,19 @@ jobs:
           echo "FILENAME=${fname}" >> $GITHUB_OUTPUT
           echo "FILEPATH=$(realpath ${fname})" >> $GITHUB_OUTPUT
 
-      - name: Upload files to Artifacts
+      - name: Upload files to Release
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.vmlinux.outputs.FILENAME }}
           path: ${{ steps.vmlinux.outputs.FILEPATH }}
+          
+          
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_name: daeuniverse/armbian-kernel-btf-dist
+          repo_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          file: ${{ steps.vmlinux.outputs.FILEPATH }}
+          asset_name: ${{ steps.vmlinux.outputs.FILENAME }}
+          tag: ${{ needs.generate_release_info.outputs.release_name }}
+          overwrite: true
