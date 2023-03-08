@@ -244,7 +244,7 @@ jobs:
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
-          repo_name: daeuniverse/armbian-kernel-btf-dist
+          repo_name: daeuniverse/armbian-btf-kernel
           repo_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           file: ${{ steps.output.outputs.FILEPATH }}
           asset_name: ${{ steps.output.outputs.FILE_DISPLAY_NAME }}
