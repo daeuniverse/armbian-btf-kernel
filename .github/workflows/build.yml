@@ -232,7 +232,7 @@ jobs:
           # Compile kernel.
           ./compile.sh RELEASE=jammy JUST_KERNEL=yes KERNEL_ONLY=yes BOARD="$BOARD_NAME" BRANCH="$BRANCH" KERNEL_CONFIGURE=no
 
-      - name: Extract output
+      - name: Extract Output
         id: output
         run: |
           cd build/output/debs/
