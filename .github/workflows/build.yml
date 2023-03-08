@@ -70,7 +70,7 @@ jobs:
       - name: Extract vmlinux
         id: vmlinux
         run: |
-          cd output/debs/
+          cd build/output/debs/
           fname=$(ls --format single-column kernel-*.tar | head -n 1)
           fpath=$(realpath ${fname})
           echo "FILE_DISPLAY_NAME=${BOARD_FAMILY}-${fname}" >> $GITHUB_OUTPUT
