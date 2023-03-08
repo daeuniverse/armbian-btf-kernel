@@ -203,6 +203,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: armbian/build
+          path: build
       
       - uses: actions/checkout@v3
         with:
@@ -211,7 +212,8 @@ jobs:
       - name: Build Kernel
         run: |
           # Copy helper files.
-          cp utils/* ./
+          cp utils/* build/
+          cd build/
 
           # Remove disabling DEBUG_INFO.
           sed -i 's/run_kernel_make olddefconfig/run_kernel_make KCONFIG_ALLCONFIG=.config alldefconfig/g' lib/functions/compilation/kernel-config.sh
