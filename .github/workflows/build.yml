@@ -232,8 +232,8 @@ jobs:
           # Compile kernel.
           ./compile.sh RELEASE=jammy JUST_KERNEL=yes KERNEL_ONLY=yes BOARD="$BOARD_NAME" BRANCH="$BRANCH" KERNEL_CONFIGURE=no
 
-      - name: Extract vmlinux
-        id: vmlinux
+      - name: Extract output
+        id: output
         run: |
           cd build/output/debs/
           fname=$(ls --format single-column kernel-*.tar | head -n 1)
@@ -246,7 +246,7 @@ jobs:
         with:
           repo_name: daeuniverse/armbian-kernel-btf-dist
           repo_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          file: ${{ steps.vmlinux.outputs.FILEPATH }}
-          asset_name: ${{ steps.vmlinux.outputs.FILE_DISPLAY_NAME }}
+          file: ${{ steps.output.outputs.FILEPATH }}
+          asset_name: ${{ steps.output.outputs.FILE_DISPLAY_NAME }}
           tag: ${{ needs.generate_release_info.outputs.release_name }}
           overwrite: true
