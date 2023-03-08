@@ -7,7 +7,7 @@ on:
 
 jobs:
   generate_release_info:
-    runs-on: kix
+    runs-on: self-hosted
     outputs:
       release_name: ${{ steps.generate_release_name.outputs.release_name }}
     steps:
@@ -16,6 +16,7 @@ jobs:
           echo "release_name=$(date -u -I)" >> "$GITHUB_OUTPUT"
 
   build:
+    runs-on: self-hosted
     needs: generate_release_info
     strategy:
         matrix:
@@ -189,7 +190,6 @@ jobs:
               branch: legacy
               representative: microzed
         fail-fast: false
-    runs-on: kix
     env:
       BOARD_FAMILY: ${{ matrix.boardfamily }}
       BRANCH: ${{ matrix.branch }}
