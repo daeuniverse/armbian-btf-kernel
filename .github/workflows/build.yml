@@ -18,8 +18,7 @@ jobs:
     steps:
       - id: generate_release_name
         run: |
-          #echo "release_name=$(date -u -I)" >> "$GITHUB_OUTPUT"
-          echo "release_name=build-${{ github.event.inputs.build_repo_branch }}" >> "$GITHUB_OUTPUT"
+          echo "release_name=${{ github.event.inputs.build_repo_branch }}-$(date -u -I)" >> "$GITHUB_OUTPUT"
 
   build:
     runs-on: self-hosted
