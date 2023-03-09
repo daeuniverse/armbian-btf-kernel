@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       build_repo_branch:
-        description: "Source branch. main/master/23.02.0-trunk.0256^{}/..."
+        description: "Source branch. main/master/23.02.0-trunk.0256/..."
         required: true
         default: "main"
 
@@ -18,7 +18,8 @@ jobs:
     steps:
       - id: generate_release_name
         run: |
-          echo "release_name=$(date -u -I)" >> "$GITHUB_OUTPUT"
+          #echo "release_name=$(date -u -I)" >> "$GITHUB_OUTPUT"
+          echo "release_name=${{ github.event.inputs.build_repo_branch }}" >> "$GITHUB_OUTPUT"
 
   build:
     runs-on: self-hosted
