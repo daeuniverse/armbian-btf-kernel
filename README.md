@@ -20,13 +20,13 @@
 
 5. Reboot your machine.
 
-## Failed to boot after installation?
+## Fail to boot after installation?
 
 Method 1: Choose the original kernel in grub menu when booting.
 
 Method 2: Restore your system if you have a backup.
 
-## Cannot find your kernel?
+## Cannot find your kernel in releases?
 
 > **Note**
 > Make sure you have clicked `Show all assets` on the releases page.
