@@ -12,7 +12,8 @@ on:
 
 jobs:
   generate_release_info:
-    runs-on: self-hosted
+#     runs-on: self-hosted
+    runs-on: ubuntu-22.04
     outputs:
       release_name: ${{ steps.generate_release_name.outputs.release_name }}
     steps:
@@ -21,7 +22,8 @@ jobs:
           echo "release_name=${{ github.event.inputs.build_repo_branch }}-$(date -u -I)" >> "$GITHUB_OUTPUT"
 
   build:
-    runs-on: self-hosted
+#     runs-on: self-hosted
+    runs-on: ubuntu
     needs: generate_release_info
     strategy:
         matrix:
@@ -233,7 +235,9 @@ jobs:
           echo "CONFIG_DEBUG_INFO=y
           CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y
           CONFIG_DEBUG_INFO_COMPRESSED_ZLIB=y
-          CONFIG_DEBUG_INFO_BTF=y" >> config/kernel/linux-"$BOARD_FAMILY"-"$BRANCH".config
+          CONFIG_DEBUG_INFO_BTF=y
+          CONFIG_KPROBE_EVENTS=y
+          CONFIG_BPF_EVENTS=y" >> config/kernel/linux-"$BOARD_FAMILY"-"$BRANCH".config
 
           # Compile kernel.
           ./compile.sh RELEASE=jammy JUST_KERNEL=yes KERNEL_ONLY=yes BOARD="$BOARD_NAME" BRANCH="$BRANCH" KERNEL_CONFIGURE=no
