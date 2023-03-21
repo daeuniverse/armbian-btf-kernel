@@ -240,7 +240,7 @@ jobs:
           CONFIG_BPF_EVENTS=y" >> config/kernel/linux-"$BOARD_FAMILY"-"$BRANCH".config
 
           # Compile kernel.
-          ./compile.sh RELEASE=jammy JUST_KERNEL=yes KERNEL_ONLY=yes BOARD="$BOARD_NAME" BRANCH="$BRANCH" KERNEL_CONFIGURE=no BUILD_MINIMAL=yes
+          ./compile.sh RELEASE=jammy JUST_KERNEL=yes BUILD_ONLY=u-boot,kernel,armbian-config,armbian-bsp BOARD="$BOARD_NAME" BRANCH="$BRANCH" KERNEL_CONFIGURE=no BUILD_MINIMAL=yes
 
       - name: Extract Output
         id: output
