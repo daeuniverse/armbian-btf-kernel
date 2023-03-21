@@ -2,7 +2,7 @@
 
 ## Upgrade to BTF Kernel on Armbian Linux
 
-1. Backup your system using `clonezilla` or other tools.
+1. Backup your system using `clonezilla` or other tools, if you can't access the grub menu to choose the kernel when booting.
 
 2. Check your board famlily:
 
@@ -19,6 +19,12 @@
    ```
 
 5. Reboot your machine.
+
+## Failed to boot after installation?
+
+Method 1: Choose the original kernel in grub menu when booting.
+
+Method 2: Restore your system if you have a backup.
 
 ## Cannot find your kernel?
 
