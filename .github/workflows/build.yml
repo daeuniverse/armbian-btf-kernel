@@ -23,7 +23,7 @@ jobs:
 
   build:
 #     runs-on: self-hosted
-    runs-on: ubuntu
+    runs-on: ubuntu-22.04
     needs: generate_release_info
     strategy:
         matrix:
