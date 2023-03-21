@@ -231,13 +231,21 @@ jobs:
           sed -i 's/run_kernel_make_long_running/run_kernel_make_long_running INSTALL_MOD_STRIP=1/g' lib/functions/compilation/kernel.sh
 
           # Enable BTF.
-          sed -i '/CONFIG_DEBUG_INFO/d' config/kernel/linux-"$BOARD_FAMILY"-"$BRANCH".config
+          sed -i '/CONFIG_DEBUG_INFO/d;/CONFIG_RING_BUFFER/d;/CONFIG_TRACING/d;/CONFIG_STACKTRACE/d;/CONFIG_NOP_TRACER/d;/CONFIG_BINARY_PRINTF/d;/CONFIG_EVENT_TRACING/d;/CONFIG_TRACE_CLOCK/d;/CONFIG_TASKS_RCU/d' config/kernel/linux-"$BOARD_FAMILY"-"$BRANCH".config
           echo "CONFIG_DEBUG_INFO=y
           CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y
           CONFIG_DEBUG_INFO_COMPRESSED_ZLIB=y
           CONFIG_DEBUG_INFO_BTF=y
           CONFIG_KPROBE_EVENTS=y
-          CONFIG_BPF_EVENTS=y" >> config/kernel/linux-"$BOARD_FAMILY"-"$BRANCH".config
+          CONFIG_BPF_EVENTS=y
+          CONFIG_RING_BUFFER=y
+          CONFIG_TRACING=y
+          CONFIG_STACKTRACE=y
+          CONFIG_NOP_TRACER=y
+          CONFIG_BINARY_PRINTF=y
+          CONFIG_EVENT_TRACING=y
+          CONFIG_TRACE_CLOCK=y
+          CONFIG_TASKS_RCU=y" >> config/kernel/linux-"$BOARD_FAMILY"-"$BRANCH".config
 
           # Compile kernel.
           ./compile.sh RELEASE=jammy JUST_KERNEL=yes BUILD_ONLY=u-boot,kernel,armbian-config,armbian-bsp BOARD="$BOARD_NAME" BRANCH="$BRANCH" KERNEL_CONFIGURE=no BUILD_MINIMAL=yes
