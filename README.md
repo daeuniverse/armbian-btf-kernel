@@ -22,7 +22,7 @@
 
 ## Fail to boot after installation?
 
-Method 1: Choose the original kernel in grub menu when booting.
+Method 1: Choose the previous kernel in grub menu when booting.
 
 Method 2: Restore your system if you have a backup.
 
